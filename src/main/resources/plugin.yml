@@ -1,0 +1,6 @@
+name: MinigameEngine
+version: '${project.version}'
+main: me.super_miner_1.minigameengine.MinigameEngine
+api-version: 1.18
+authors: [ super_miner_1 ]
+description: A library for easily creating minigames made by super_miner_1.
