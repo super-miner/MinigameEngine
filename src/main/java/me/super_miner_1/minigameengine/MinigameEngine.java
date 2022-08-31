@@ -1,13 +1,13 @@
 package me.super_miner_1.minigameengine;
 
-import me.super_miner_1.minigameengine.animations.Animation;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import me.super_miner_1.minigameengine.events.ServerStartEvent;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
 import me.super_miner_1.minigameengine.testScripts.MainTest;
 import me.super_miner_1.minigameengine.time.Time;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +23,7 @@ public final class MinigameEngine extends JavaPlugin {
         HIGH
     }
 
+    private Gson gson = null;
     private long startingMilliseconds = 0;
     private long startingTicks = 0;
     private Time lastUpdateTime = null;
@@ -41,6 +42,10 @@ public final class MinigameEngine extends JavaPlugin {
     @Override
     public void onEnable() {
         engine = this;
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        this.gson = builder.create();
 
         this.startingMilliseconds = System.currentTimeMillis();
         this.startingTicks = Bukkit.getWorlds().get(0).getFullTime();
@@ -82,6 +87,10 @@ public final class MinigameEngine extends JavaPlugin {
     @Override
     public void onDisable() {
         consoleLog("Minigame Engine has unloaded.");
+    }
+
+    public Gson getGson() {
+        return gson;
     }
 
     public long getMillisecondsSinceStart() {

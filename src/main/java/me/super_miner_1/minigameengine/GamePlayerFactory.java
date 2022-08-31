@@ -31,16 +31,7 @@ public class GamePlayerFactory implements Listener {
         try {
             onJoin(event);
         }
-        catch (NoSuchMethodException err) {
-            err.printStackTrace();
-        }
-        catch (InvocationTargetException err) {
-            err.printStackTrace();
-        }
-        catch (InstantiationException err) {
-            err.printStackTrace();
-        }
-        catch (IllegalAccessException err) {
+        catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException err) {
             err.printStackTrace();
         }
     }
