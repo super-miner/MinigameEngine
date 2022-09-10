@@ -2,6 +2,8 @@ package me.super_miner_1.minigameengine.inventoryLayouts;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.io.FileNotFoundException;
@@ -9,22 +11,18 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class InventoryLayoutData {
+public class InventoryLayout {
     public String name;
     public int rows;
-    public ArrayList<InventoryLayoutLayer> layers = new ArrayList<InventoryLayoutLayer>();
+    public ArrayList<InventoryLayer> layers = new ArrayList<InventoryLayer>();
 
-    public static InventoryLayoutData load(String filePath) {
+    public static InventoryLayout load(String filePath) {
         String path = MinigameEngine.engine.getDataFolder().getAbsolutePath() + "/" + filePath;
 
         try {
-            InventoryLayoutData data = MinigameEngine.engine.getGson().fromJson(new FileReader(path), InventoryLayoutData.class);
+            InventoryLayout data = MinigameEngine.engine.getGson().fromJson(new FileReader(path), InventoryLayout.class);
 
-            data.layers.sort(new Comparator<InventoryLayoutLayer>() {
-                public int compare(InventoryLayoutLayer layer1, InventoryLayoutLayer layer2) {
-                    return layer1.layer - layer2.layer;
-                }
-            });
+            data.layers.sort(Comparator.comparingInt(layer -> layer.layer));
 
             return data;
         }
@@ -36,7 +34,7 @@ public class InventoryLayoutData {
     }
 
     public static Inventory getInventory(String filePath) {
-        InventoryLayoutData inventoryLayoutData = load(filePath);
+        InventoryLayout inventoryLayoutData = load(filePath);
         return inventoryLayoutData.buildInventory();
     }
 
@@ -45,7 +43,7 @@ public class InventoryLayoutData {
     }
 
     public void apply(Inventory inventory) {
-        for (InventoryLayoutLayer layer : layers) {
+        for (InventoryLayer layer : layers) {
             layer.apply(inventory);
         }
     }

@@ -16,6 +16,8 @@ public class ItemData {
     public String name = "";
     public ArrayList<String> lore = new ArrayList<String>();
     public boolean unbreakable = false;
+    public boolean movable = true;
+    public ArrayList<Interaction> callbacks = new ArrayList<Interaction>();
 
     public static ItemData load(String filePath) {
         String path = MinigameEngine.engine.getDataFolder().getAbsolutePath() + "/" + filePath;
@@ -30,14 +32,20 @@ public class ItemData {
         return null;
     }
 
-    public static ItemStack getItem(String filePath) {
+    public static GameItemStack getItem(String filePath) {
         ItemData itemData = load(filePath);
 
         if (itemData == null) {
             return null;
         }
 
-        return itemData.createItem();
+        ItemStack item = itemData.createItem();
+
+        if (item == null) {
+            return null;
+        }
+
+        return new GameItemStack(item, itemData.movable, itemData.callbacks);
     }
 
     public ItemStack createItem() {

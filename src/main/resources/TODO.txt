@@ -1,0 +1,15 @@
+TODO:
+
+Near Future:
+- Remove Time class
+    - Use ticks for time measurement
+    - Have a secondsToTicks() and millisecondsToTicks() function
+- Add interactions for outside of inventory
+    - Dropping
+    - Clicking
+
+Far Future:
+- Physical menu system
+
+Done:
+[9/_/2022] - Json menu configuration

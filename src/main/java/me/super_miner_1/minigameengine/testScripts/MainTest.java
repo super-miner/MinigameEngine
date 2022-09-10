@@ -1,9 +1,10 @@
 package me.super_miner_1.minigameengine.testScripts;
 
-import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.events.ServerStartEvent;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
-import me.super_miner_1.minigameengine.inventoryLayouts.InventoryLayoutData;
+import me.super_miner_1.minigameengine.inventoryLayouts.InventoryLayout;
+import me.super_miner_1.minigameengine.inventoryLayouts.UIClickEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -26,7 +27,7 @@ public class MainTest implements Listener {
                             clicker.sendMessage("You clicked me!");
                         }));*/
 
-        testInventory = InventoryLayoutData.getInventory("TestMenu.json");
+        testInventory = InventoryLayout.getInventory("TestMenu.json");
     }
 
     @EventHandler
@@ -37,5 +38,10 @@ public class MainTest implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().openInventory(testInventory);
+    }
+
+    @EventHandler
+    public void onUIClick(UIClickEvent event) {
+        Bukkit.broadcastMessage(event.getCallbackId());
     }
 }
