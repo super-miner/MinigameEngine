@@ -1,15 +1,27 @@
 TODO:
 
 Near Future:
+- Potion effect handling
+    - Three types of effect Minimum, Maximum, and Compounding
+    - With Compounding you can make own equation for how each one compounds with the rest
+    - Priority system for Compounding effects
+    - Effects don't have to represent potion effects they can be arbitrary
 - Remove Time class
     - Use ticks for time measurement
     - Have a secondsToTicks() and millisecondsToTicks() function
 - Add interactions for outside of inventory
     - Dropping
     - Clicking
+- Cache items and inventories
+- Add a raycastParticles() function that shoots a raycast with particles along its path
+- Test animation system
 
 Far Future:
 - Physical menu system
+- Item and inventory default settings
+- Item json support for attribute modifier, custom model data, and localized name
+- Tons of edge case/error handling
+- Bungeecord server network capabilities
 
 Done:
 [9/_/2022] - Json menu configuration

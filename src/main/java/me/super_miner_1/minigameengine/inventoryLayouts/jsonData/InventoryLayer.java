@@ -1,9 +1,7 @@
-package me.super_miner_1.minigameengine.inventoryLayouts;
+package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
-import me.super_miner_1.minigameengine.MinigameEngine;
-import org.bukkit.Material;
+import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class InventoryLayer {
     public int layer;

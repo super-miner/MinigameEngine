@@ -2,7 +2,7 @@ package me.super_miner_1.minigameengine.testScripts;
 
 import me.super_miner_1.minigameengine.events.ServerStartEvent;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
-import me.super_miner_1.minigameengine.inventoryLayouts.InventoryLayout;
+import me.super_miner_1.minigameengine.inventoryLayouts.jsonData.InventoryLayout;
 import me.super_miner_1.minigameengine.inventoryLayouts.UIClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

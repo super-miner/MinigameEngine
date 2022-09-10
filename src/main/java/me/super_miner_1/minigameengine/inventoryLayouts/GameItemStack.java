@@ -1,7 +1,7 @@
 package me.super_miner_1.minigameengine.inventoryLayouts;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
-import me.super_miner_1.minigameengine.testScripts.MainTest;
+import me.super_miner_1.minigameengine.inventoryLayouts.jsonData.Interaction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -68,6 +68,10 @@ public class GameItemStack implements Listener {
                     Bukkit.getPluginManager().callEvent(new UIClickEvent(player, this, interaction.id));
                 }
             }
+        }
+
+        if (!movable) {
+            event.setCancelled(true);
         }
     }
 }

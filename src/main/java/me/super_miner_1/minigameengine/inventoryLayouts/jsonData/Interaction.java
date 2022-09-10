@@ -1,4 +1,4 @@
-package me.super_miner_1.minigameengine.inventoryLayouts;
+package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
 import org.bukkit.Bukkit;

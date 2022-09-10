@@ -1,7 +1,10 @@
-package me.super_miner_1.minigameengine.inventoryLayouts;
+package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
+import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,7 +18,9 @@ public class ItemData {
     public int amount = 1;
     public String name = "";
     public ArrayList<String> lore = new ArrayList<String>();
+    public ArrayList<EnchantmentData> enchantments = new ArrayList<EnchantmentData>();
     public boolean unbreakable = false;
+    public ArrayList<String> flags = new ArrayList<String>();
     public boolean movable = true;
     public ArrayList<Interaction> callbacks = new ArrayList<Interaction>();
 
@@ -64,7 +69,21 @@ public class ItemData {
             meta.setLore(lore);
         }
 
+        if (enchantments.size() > 0) {
+            for (EnchantmentData enchantmentData : enchantments) {
+                meta.addEnchant(enchantmentData.getEnchantment(), enchantmentData.level, true);
+            }
+        }
+
         meta.setUnbreakable(unbreakable);
+
+        if (flags.size() > 0) {
+            for (String flag : flags) {
+                meta.addItemFlags(ItemFlag.valueOf(flag));
+            }
+        }
+
+        item.setItemMeta(meta);
 
         return item;
     }
