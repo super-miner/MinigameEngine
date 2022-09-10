@@ -6,9 +6,7 @@ Near Future:
     - With Compounding you can make own equation for how each one compounds with the rest
     - Priority system for Compounding effects
     - Effects don't have to represent potion effects they can be arbitrary
-- Remove Time class
-    - Use ticks for time measurement
-    - Have a secondsToTicks() and millisecondsToTicks() function
+- Move ambient, particles, and icon to a effectGroup class
 - Add interactions for outside of inventory
     - Dropping
     - Clicking
@@ -25,3 +23,4 @@ Far Future:
 
 Done:
 [9/9/2022] - Json menu configuration
+[9/10/2022] - Remove Time class
