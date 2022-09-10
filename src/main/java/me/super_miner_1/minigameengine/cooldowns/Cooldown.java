@@ -1,30 +1,30 @@
 package me.super_miner_1.minigameengine.cooldowns;
 
 import me.super_miner_1.minigameengine.Id;
-import me.super_miner_1.minigameengine.time.Time;
+import me.super_miner_1.minigameengine.Time;
 import org.bukkit.entity.Player;
 
 public class Cooldown {
     protected Id id;
     protected Player player;
-    protected Time startTime;
-    protected Time endTime;
-    protected Time length;
+    protected long startTime;
+    protected long endTime;
+    protected long length;
     protected boolean active = true;
 
-    public Cooldown(int id, Player player, Time length) {
+    public Cooldown(int id, Player player, long length) {
         this.id = new Id(id);
         this.player = player;
         this.startTime = Time.getTime();
-        this.endTime = startTime.add(length);
+        this.endTime = startTime + length;
         this.length = length;
     }
 
-    public Cooldown(String id, Player player, Time length) {
+    public Cooldown(String id, Player player, long length) {
         this.id = new Id(id);
         this.player = player;
         this.startTime = Time.getTime();
-        this.endTime = startTime.add(length);
+        this.endTime = startTime + length;
         this.length = length;
     }
 
@@ -36,8 +36,8 @@ public class Cooldown {
 
     }
 
-    public Time getTimeLeft() {
-        return endTime.subtract(Time.getTime());
+    public long getTimeLeft() {
+        return endTime - Time.getTime();
     }
 
     public void setActive(boolean value) {

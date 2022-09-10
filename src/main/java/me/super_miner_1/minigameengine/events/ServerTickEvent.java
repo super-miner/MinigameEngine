@@ -1,16 +1,13 @@
 package me.super_miner_1.minigameengine.events;
 
-import me.super_miner_1.minigameengine.GamePotionEffect;
-import me.super_miner_1.minigameengine.time.Time;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class ServerTickEvent extends Event {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
-    Time deltaTime;
+    long deltaTime;
 
-    public ServerTickEvent(Time deltaTime) {
+    public ServerTickEvent(long deltaTime) {
         this.deltaTime = deltaTime;
     }
 
@@ -23,7 +20,7 @@ public class ServerTickEvent extends Event {
         return HANDLERS_LIST;
     }
 
-    public Time getDeltaTime() {
+    public long getDeltaTime() {
         return deltaTime;
     }
 }

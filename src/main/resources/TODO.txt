@@ -24,4 +24,4 @@ Far Future:
 - Bungeecord server network capabilities
 
 Done:
-[9/_/2022] - Json menu configuration
+[9/9/2022] - Json menu configuration

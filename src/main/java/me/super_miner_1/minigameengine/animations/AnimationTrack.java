@@ -1,12 +1,10 @@
 package me.super_miner_1.minigameengine.animations;
 
-import me.super_miner_1.minigameengine.time.Time;
-
 import java.util.ArrayList;
 
 public class AnimationTrack {
     protected ArrayList<AnimationState> states = new ArrayList<AnimationState>();
-    protected Time time;
+    protected long time;
 
     public boolean addState(AnimationState state) {
         if (states.size() <= 0 || states.get(0).compatibleWith(state)) {
@@ -18,18 +16,18 @@ public class AnimationTrack {
         }
     }
 
-    public void advanceTime(Time newTime) {
+    public void advanceTime(long newTime) {
         time = newTime;
 
         AnimationState currentState = getCurrentState(time);
         AnimationState nextState = getNextState(time);
 
-        float animTime = ((float) time.getTimeMilliseconds() - currentState.getTime().getTimeMilliseconds()) / (nextState.getTime().getTimeMilliseconds() - currentState.getTime().getTimeMilliseconds());
+        float animTime = ((float) time - currentState.getTime()) / (nextState.getTime() - currentState.getTime());
 
         currentState.lerp(nextState, animTime);
     }
 
-    private AnimationState getCurrentState(Time time) {
+    private AnimationState getCurrentState(long time) {
         if (states.size() <= 0) {
             return null;
         }
@@ -37,7 +35,7 @@ public class AnimationTrack {
         AnimationState best = states.get(0);
 
         for (AnimationState state : states) {
-            if (state.getTime().getTimeMilliseconds() <= time.getTimeMilliseconds() && state.getTime().getTimeMilliseconds() > best.getTime().getTimeMilliseconds()) {
+            if (state.getTime() <= time && state.getTime() > best.getTime()) {
                 best = state;
             }
         }
@@ -45,7 +43,7 @@ public class AnimationTrack {
         return best;
     }
 
-    private AnimationState getNextState(Time time) {
+    private AnimationState getNextState(long time) {
         if (states.size() <= 0) {
             return null;
         }
@@ -53,7 +51,7 @@ public class AnimationTrack {
         AnimationState best = states.get(0);
 
         for (AnimationState state : states) {
-            if (state.getTime().getTimeMilliseconds() > time.getTimeMilliseconds() && state.getTime().getTimeMilliseconds() < best.getTime().getTimeMilliseconds()) {
+            if (state.getTime() > time && state.getTime() < best.getTime()) {
                 best = state;
             }
         }

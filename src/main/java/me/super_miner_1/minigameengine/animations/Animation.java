@@ -2,7 +2,6 @@ package me.super_miner_1.minigameengine.animations;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
-import me.super_miner_1.minigameengine.time.Time;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -41,7 +40,7 @@ public class Animation implements Listener {
         tracks.add(track);
     }
 
-    public void advanceTracks(Time time) {
+    public void advanceTracks(long time) {
         for (AnimationTrack track : tracks) {
             track.advanceTime(time);
         }

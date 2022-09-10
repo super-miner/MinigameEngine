@@ -1,13 +1,13 @@
 package me.super_miner_1.minigameengine.cooldowns;
 
-import me.super_miner_1.minigameengine.time.Time;
+import me.super_miner_1.minigameengine.Time;
 import org.bukkit.entity.Player;
 
 public class ExperienceBarCooldown extends Cooldown {
-    public ExperienceBarCooldown(int id, Player player, Time length) {
+    public ExperienceBarCooldown(int id, Player player, long length) {
         super(id, player, length);
     }
-    public ExperienceBarCooldown(String id, Player player, Time length) {
+    public ExperienceBarCooldown(String id, Player player, long length) {
         super(id, player, length);
     }
 
@@ -17,10 +17,10 @@ public class ExperienceBarCooldown extends Cooldown {
             return;
         }
 
-        if (getTimeLeft().getTimeTicks() > 0) {
-            player.setLevel(Math.round((float) getTimeLeft().getTimeMilliseconds() / 1000));
-            Time timeUntil = length.subtract(getTimeLeft());
-            player.setExp((float) timeUntil.getTimeMilliseconds() / length.getTimeMilliseconds());
+        if (getTimeLeft() > 0) {
+            player.setLevel(Math.round((float) getTimeLeft() / 20));
+            long timeUntil = length - getTimeLeft();
+            player.setExp((float) timeUntil / length);
         }
         else {
             player.setLevel(0);

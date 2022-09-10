@@ -1,11 +1,10 @@
 package me.super_miner_1.minigameengine.animations;
 
 import me.super_miner_1.minigameengine.Id;
-import me.super_miner_1.minigameengine.time.Time;
 
 public class AnimationState {
     protected Id id;
-    protected Time time;
+    protected long time;
 
     public AnimationState(Id id) {
         this.id = id;
@@ -23,7 +22,7 @@ public class AnimationState {
         return id;
     }
 
-    public Time getTime() {
+    public long getTime() {
         return time;
     }
 }
