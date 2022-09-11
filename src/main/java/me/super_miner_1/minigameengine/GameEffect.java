@@ -14,6 +14,9 @@ public class GameEffect {
     private double value;
     private EffectCompoundFunction compoundFunction;
     private int priority;
+    private boolean ambient = false;
+    private boolean particles = true;
+    private boolean icon = true;
 
     public GameEffect(GamePlayer player, Id id, GameEffectGroup group, int duration, double value, EffectCompoundFunction compoundFunction, int priority, PotionEffectType type, boolean ambient, boolean particles, boolean icon) {
         this.player = player;
@@ -24,6 +27,9 @@ public class GameEffect {
         this.value = value;
         this.compoundFunction = compoundFunction;
         this.priority = priority;
+        this.ambient = ambient;
+        this.particles = particles;
+        this.icon = icon;
 
         startCallbackTimer();
     }
@@ -95,5 +101,17 @@ public class GameEffect {
 
     public int getPriority() {
         return priority;
+    }
+
+    public boolean isAmbient() {
+        return ambient;
+    }
+
+    public boolean hasParticles() {
+        return particles;
+    }
+
+    public boolean hasIcon() {
+        return icon;
     }
 }

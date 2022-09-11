@@ -9,24 +9,32 @@ public class GameEffectGroup {
     private ArrayList<GameEffect> effects = new ArrayList<GameEffect>();
     private Id id;
     private PotionEffectType type;
-    private boolean ambient;
-    private boolean particles;
-    private boolean icon;
 
-    public GameEffectGroup(Id id, PotionEffectType type, boolean ambient, boolean particles, boolean icon) {
+    public GameEffectGroup(Id id, PotionEffectType type) {
         this.id = id;
         this.type = type;
-        this.ambient = ambient;
-        this.particles = particles;
-        this.icon = icon;
     }
 
     public void applyEffects(GamePlayer player) {
         effects.sort((GameEffect effectA, GameEffect effectB) -> Integer.compare(effectB.getPriority(), effectA.getPriority()));
 
         double value = 0.0;
+        boolean ambient = false;
+        boolean particles = false;
+        boolean icon = false;
+
         for (GameEffect effect : effects) {
             value = effect.getCompoundFunction().run(value, effect);
+
+            if (effect.isAmbient()) {
+                ambient = true;
+            }
+            if (effect.hasParticles()) {
+                particles = true;
+            }
+            if (effect.hasIcon()) {
+                icon = true;
+            }
         }
 
         if (type != null) {
@@ -73,17 +81,5 @@ public class GameEffectGroup {
 
     public PotionEffectType getType() {
         return type;
-    }
-
-    public boolean isAmbient() {
-        return ambient;
-    }
-
-    public boolean hasParticles() {
-        return particles;
-    }
-
-    public boolean hasIcon() {
-        return icon;
     }
 }

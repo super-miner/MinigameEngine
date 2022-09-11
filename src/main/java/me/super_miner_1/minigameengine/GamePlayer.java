@@ -54,7 +54,6 @@ public class GamePlayer implements Listener {
         morph.setInvulnerable(true);
         morph.setSilent(true);
 
-        if (getEffectGroup(PotionEffectType.INVISIBILITY) == null) addEffectGroup(PotionEffectType.INVISIBILITY, false, false, false);
         addEffect(new Id("MORPH_INVIS"), PotionEffectType.INVISIBILITY, 999999, 1.0, EffectCompoundPresets.MIN, -1);
     }
 
@@ -65,29 +64,18 @@ public class GamePlayer implements Listener {
         removeEffect(new Id("MORPH_INVIS"), PotionEffectType.INVISIBILITY);
     }
 
-    public GameEffectGroup addEffectGroup(PotionEffectType type, boolean ambient, boolean particles, boolean icon) {
-        Id id = new Id(type.getName());
-        if (getEffectGroup(id) != null) {
-            return null;
-        }
-
-        GameEffectGroup effectGroup = new GameEffectGroup(id, type, ambient, particles, icon);
-        effectGroups.add(effectGroup);
-        return effectGroup;
-    }
-
-    public GameEffectGroup addEffectGroup(PotionEffectType type) {
-        return addEffectGroup(type, false, true, true);
-    }
-
     public GameEffectGroup addEffectGroup(Id id) {
         if (getEffectGroup(id) != null) {
             return null;
         }
 
-        GameEffectGroup effectGroup = new GameEffectGroup(id, null, false, true, true);
+        GameEffectGroup effectGroup = new GameEffectGroup(id, null);
         effectGroups.add(effectGroup);
         return effectGroup;
+    }
+
+    public GameEffectGroup addEffectGroup(PotionEffectType type) {
+        return addEffectGroup(new Id(type.getName()));
     }
 
     public GameEffectGroup getEffectGroup(Id id) {
@@ -111,28 +99,36 @@ public class GamePlayer implements Listener {
         removeEffectGroup(new Id(type.getName()));
     }
 
-    public GameEffect addEffect(Id id, Id groupId, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority) {
+    public GameEffect addEffect(Id id, Id groupId, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority, boolean ambient, boolean particles, boolean icon) {
         GameEffectGroup group = getEffectGroup(groupId);
 
         if (group.getEffect(id) != null) {
-            return null;
+            addEffectGroup(groupId);
         }
 
-        GameEffect effect = new GameEffect(this, id, group, (duration < 0 && group.getType() != null ? 999999 : duration), value, effectCompoundFunction, priority, null, false, true, true);
+        GameEffect effect = new GameEffect(this, id, group, (duration < 0 && group.getType() != null ? 999999 : duration), value, effectCompoundFunction, priority, null, ambient, particles, icon);
 
         group.addEffect(effect);
         return effect;
     }
 
+    public GameEffect addEffect(Id id, Id groupId, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority) {
+        return addEffect(id, groupId, duration, value, effectCompoundFunction, priority, false, true, true);
+    }
+
+    public GameEffect addEffect(Id id, PotionEffectType type, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority, boolean ambient, boolean particles, boolean icon) {
+        return addEffect(id, new Id(type.getName()), duration, value, effectCompoundFunction, priority, ambient, particles, icon);
+    }
+
     public GameEffect addEffect(Id id, PotionEffectType type, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority) {
-        return addEffect(id, new Id(type.getName()), duration, value, effectCompoundFunction, priority);
+        return addEffect(id, new Id(type.getName()), duration, value, effectCompoundFunction, priority, false, true, true);
     }
 
     public void removeEffect(Id id, Id groupId) {
         GameEffectGroup group = getEffectGroup(groupId);
 
         if (group == null) {
-            MinigameEngine.consoleWarn("Used a non-existant group id when removing an effect.", MinigameEngine.WarnPriority.LOW);
+            MinigameEngine.consoleWarn("Used a non-existent group id when removing an effect.", MinigameEngine.WarnPriority.LOW);
             return;
         }
 
@@ -143,68 +139,10 @@ public class GamePlayer implements Listener {
         removeEffect(id, new Id(type.getName()));
     }
 
-    /*public boolean hasPotionEffect(Id id) {
-        for (GameEffect effect : effects) {
-            if (effect.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public ArrayList<GameEffect> getPotionEffects(Id id) {
-        ArrayList<GameEffect> output = new ArrayList<GameEffect>();
-        for (GameEffect effect : effects) {
-            if (effect.getId().equals(id)) {
-                output.add(effect);
-            }
-        }
-        return output;
-    }
-
-    public void removePotionEffect(Id id) {
-        removePotionEffect(id, true);
-    }
-
-    public void removePotionEffect(Id id, boolean removeAllInstances) {
-        for (GameEffect effect : effects) {
-            if (effect.getId().equals(id)) {
-                removePotionEffect(effect);
-                if (!removeAllInstances) {
-                    return;
-                }
-            }
-        }
-    }
-
-    public void removePotionEffect(GameEffect effect) {
-        effects.remove(effect);
-    }
-
-    protected GameEffect getHighestLevelEffect(PotionEffectType type) {
-        GameEffect highest = null;
-        for (GameEffect effect : effects) {
-            if (effect.getType().equals(type) && (highest == null || effect.getAmplifier() > highest.getAmplifier())) {
-                highest = effect;
-            }
-        }
-        return highest;
-    }
-
-    protected ArrayList<PotionEffectType> getActiveEffectTypes() {
-        ArrayList<PotionEffectType> output = new ArrayList<PotionEffectType>();
-        for (GameEffect effect : effects) {
-            if (!output.contains(effect.getType())) {
-                output.add(effect.getType());
-            }
-        }
-        return output;
-    }*/
-
     @EventHandler
     public void potionEffectExpireEvent(PotionEffectExpireEvent event) {
         if (event.getPlayer() == player) {
-            //removePotionEffect(event.getEffect());
+            removeEffect(event.getEffect().getId(), event.getEffect().getGroup().getId());
         }
     }
 }
