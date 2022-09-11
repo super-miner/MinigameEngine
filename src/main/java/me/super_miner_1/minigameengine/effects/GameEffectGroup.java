@@ -1,5 +1,9 @@
-package me.super_miner_1.minigameengine;
+package me.super_miner_1.minigameengine.effects;
 
+import me.super_miner_1.minigameengine.GamePlayer;
+import me.super_miner_1.minigameengine.Id;
+import me.super_miner_1.minigameengine.MinigameEngine;
+import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 

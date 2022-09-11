@@ -1,6 +1,6 @@
 package me.super_miner_1.minigameengine.events;
 
-import me.super_miner_1.minigameengine.GameEffect;
+import me.super_miner_1.minigameengine.effects.GameEffect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

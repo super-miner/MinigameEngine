@@ -1,6 +1,12 @@
 package me.super_miner_1.minigameengine;
 
+import me.super_miner_1.minigameengine.effects.EffectCompoundFunction;
+import me.super_miner_1.minigameengine.effects.EffectCompoundPresets;
+import me.super_miner_1.minigameengine.effects.GameEffect;
+import me.super_miner_1.minigameengine.effects.GameEffectGroup;
 import me.super_miner_1.minigameengine.events.PotionEffectExpireEvent;
+import me.super_miner_1.minigameengine.events.ServerTickEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -18,6 +24,8 @@ public class GamePlayer implements Listener {
     protected Entity morph;
 
     public GamePlayer(Player player) {
+        Bukkit.getPluginManager().registerEvents(this, MinigameEngine.engine);
+
         this.player = player;
     }
 
@@ -29,7 +37,8 @@ public class GamePlayer implements Listener {
         return overrideClass;
     }
 
-    public void onTick() {
+    @EventHandler
+    public void onTick(ServerTickEvent event) {
         for (GameEffectGroup effectGroup : effectGroups) {
             effectGroup.applyEffects(this);
         }
@@ -64,18 +73,22 @@ public class GamePlayer implements Listener {
         removeEffect(new Id("MORPH_INVIS"), PotionEffectType.INVISIBILITY);
     }
 
-    public GameEffectGroup addEffectGroup(Id id) {
+    public GameEffectGroup addEffectGroup(Id id, PotionEffectType type) {
         if (getEffectGroup(id) != null) {
             return null;
         }
 
-        GameEffectGroup effectGroup = new GameEffectGroup(id, null);
+        GameEffectGroup effectGroup = new GameEffectGroup(id, type);
         effectGroups.add(effectGroup);
         return effectGroup;
     }
 
     public GameEffectGroup addEffectGroup(PotionEffectType type) {
-        return addEffectGroup(new Id(type.getName()));
+        return addEffectGroup(new Id(type.getName()), type);
+    }
+
+    public GameEffectGroup addEffectGroup(Id id) {
+        return addEffectGroup(id, null);
     }
 
     public GameEffectGroup getEffectGroup(Id id) {
@@ -99,11 +112,15 @@ public class GamePlayer implements Listener {
         removeEffectGroup(new Id(type.getName()));
     }
 
-    public GameEffect addEffect(Id id, Id groupId, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority, boolean ambient, boolean particles, boolean icon) {
+    public GameEffect addEffect(Id id, Id groupId, PotionEffectType type, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority, boolean ambient, boolean particles, boolean icon) {
         GameEffectGroup group = getEffectGroup(groupId);
 
+        if (group == null) {
+            group = addEffectGroup(groupId, type);
+        }
+
         if (group.getEffect(id) != null) {
-            addEffectGroup(groupId);
+            return null;
         }
 
         GameEffect effect = new GameEffect(this, id, group, (duration < 0 && group.getType() != null ? 999999 : duration), value, effectCompoundFunction, priority, null, ambient, particles, icon);
@@ -112,16 +129,20 @@ public class GamePlayer implements Listener {
         return effect;
     }
 
+    public GameEffect addEffect(Id id, Id groupId, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority, boolean ambient, boolean particles, boolean icon) {
+        return addEffect(id, groupId, null, duration, value, effectCompoundFunction, priority, ambient, particles, icon);
+    }
+
     public GameEffect addEffect(Id id, Id groupId, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority) {
-        return addEffect(id, groupId, duration, value, effectCompoundFunction, priority, false, true, true);
+        return addEffect(id, groupId, null, duration, value, effectCompoundFunction, priority, false, true, true);
     }
 
     public GameEffect addEffect(Id id, PotionEffectType type, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority, boolean ambient, boolean particles, boolean icon) {
-        return addEffect(id, new Id(type.getName()), duration, value, effectCompoundFunction, priority, ambient, particles, icon);
+        return addEffect(id, new Id(type.getName()), type, duration, value, effectCompoundFunction, priority, ambient, particles, icon);
     }
 
     public GameEffect addEffect(Id id, PotionEffectType type, int duration, double value, EffectCompoundFunction effectCompoundFunction, int priority) {
-        return addEffect(id, new Id(type.getName()), duration, value, effectCompoundFunction, priority, false, true, true);
+        return addEffect(id, new Id(type.getName()), type, duration, value, effectCompoundFunction, priority, false, true, true);
     }
 
     public void removeEffect(Id id, Id groupId) {

@@ -25,8 +25,8 @@ public final class MinigameEngine extends JavaPlugin {
     private Gson gson = null;
     private long startingMilliseconds = 0;
     private long startingTicks = 0;
-    private Time lastUpdateTime = null;
-    private Time currentUpdateTime = null;
+    private long lastUpdateTime = 0;
+    private long currentUpdateTime = 0;
     private HashMap<Player, GamePlayer> players = new HashMap<Player, GamePlayer>();
     private GamePlayerFactory playerFactory = null;
 
@@ -100,8 +100,8 @@ public final class MinigameEngine extends JavaPlugin {
         return Bukkit.getWorlds().get(0).getFullTime() - startingTicks;
     }
 
-    public Time getDeltaTime() {
-        return currentUpdateTime.subtract(lastUpdateTime);
+    public long getDeltaTime() {
+        return currentUpdateTime - lastUpdateTime;
     }
 
     public void addGamePlayer(GamePlayer gamePlayer) {
