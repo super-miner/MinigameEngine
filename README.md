@@ -1,6 +1,9 @@
 # Minigame Engine
 A Spigot plugin providing useful functions to speed up development.
 
+Credits:
+- Flown - Contribution: The maority of the code.
+
 # Future Plans
 Near Future:
 - Add interactions for outside of inventory
