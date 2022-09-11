@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.super_miner_1.minigameengine.events.ServerStartEvent;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
-import me.super_miner_1.minigameengine.testScripts.MainTest;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -66,12 +65,6 @@ public final class MinigameEngine extends JavaPlugin {
                 onTick();
             }
         }.runTaskTimer(this, 0L, 1L);
-
-        //==========TEST=CODE==========//
-
-        MinigameEngine.engine.getServer().getPluginManager().registerEvents(new MainTest(), this);
-
-        //=============================//
 
         consoleLog("Minigame Engine has loaded.");
     }
