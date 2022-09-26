@@ -6,7 +6,6 @@ import me.super_miner_1.minigameengine.effects.GameEffect;
 import me.super_miner_1.minigameengine.effects.GameEffectGroup;
 import me.super_miner_1.minigameengine.events.PotionEffectExpireEvent;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -16,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 
-public class GamePlayer implements Listener {
+public class GamePlayer extends GameEventHandler implements Listener {
     private static Class<? extends GamePlayer> overrideClass = GamePlayer.class;
 
     protected Player player;
@@ -24,8 +23,6 @@ public class GamePlayer implements Listener {
     protected Entity morph;
 
     public GamePlayer(Player player) {
-        Bukkit.getPluginManager().registerEvents(this, MinigameEngine.engine);
-
         this.player = player;
     }
 
