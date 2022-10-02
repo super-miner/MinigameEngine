@@ -6,6 +6,7 @@ import me.super_miner_1.minigameengine.events.ServerStartEvent;
 import me.super_miner_1.minigameengine.events.ServerTickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,7 +24,7 @@ public final class MinigameEngine extends JavaPlugin {
 
     private Gson gson = null;
     private long startingMilliseconds = 0;
-    private long startingTicks = 0;
+    private long ticksSinceStart = 0;
     private long lastUpdateTime = 0;
     private long currentUpdateTime = 0;
     private HashMap<Player, GamePlayer> players = new HashMap<Player, GamePlayer>();
@@ -46,7 +47,6 @@ public final class MinigameEngine extends JavaPlugin {
         this.gson = builder.create();
 
         this.startingMilliseconds = System.currentTimeMillis();
-        this.startingTicks = Bukkit.getWorlds().get(0).getFullTime();
 
         this.lastUpdateTime = Time.getTime();
         this.currentUpdateTime = Time.getTime();
@@ -74,6 +74,8 @@ public final class MinigameEngine extends JavaPlugin {
         currentUpdateTime = Time.getTime();
 
         Bukkit.getPluginManager().callEvent(new ServerTickEvent(getDeltaTime()));
+
+        ticksSinceStart ++;
     }
 
     @Override
@@ -90,7 +92,7 @@ public final class MinigameEngine extends JavaPlugin {
     }
 
     public long getTicksSinceStart() {
-        return Bukkit.getWorlds().get(0).getFullTime() - startingTicks;
+        return ticksSinceStart;
     }
 
     public long getDeltaTime() {
@@ -119,5 +121,9 @@ public final class MinigameEngine extends JavaPlugin {
 
     public GamePlayerFactory getGamePlayerFactory() {
         return playerFactory;
+    }
+
+    public World getMainWorld() {
+        return Bukkit.getWorlds().get(0);
     }
 }

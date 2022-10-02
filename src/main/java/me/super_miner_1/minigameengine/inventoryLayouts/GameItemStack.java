@@ -1,14 +1,18 @@
 package me.super_miner_1.minigameengine.inventoryLayouts;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
+import me.super_miner_1.minigameengine.events.UIClickEvent;
 import me.super_miner_1.minigameengine.inventoryLayouts.jsonData.Interaction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -65,6 +69,50 @@ public class GameItemStack implements Listener {
 
             for (Interaction interaction : callbacks) {
                 if (interaction.isTriggered(clickType)) {
+                    Bukkit.getPluginManager().callEvent(new UIClickEvent(player, this, interaction.id));
+                }
+            }
+        }
+
+        if (!movable) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
+        ItemStack clickedItem = event.getItem();
+
+        if (clickedItem == null) {
+            return;
+        }
+
+        if (clickedItem.equals(item)) {
+            Action action = event.getAction();
+
+            for (Interaction interaction : callbacks) {
+                if (interaction.isTriggered(action)) {
+                    Bukkit.getPluginManager().callEvent(new UIClickEvent(player, this, interaction.id));
+                }
+            }
+        }
+
+        if (!movable) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+
+        ItemStack clickedItem = event.getItemDrop().getItemStack();
+
+        if (clickedItem.equals(item)) {
+            for (Interaction interaction : callbacks) {
+                if (interaction.isTriggered(true)) {
                     Bukkit.getPluginManager().callEvent(new UIClickEvent(player, this, interaction.id));
                 }
             }

@@ -54,7 +54,14 @@ public class ItemData {
     }
 
     public ItemStack createItem() {
-        ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(type)), amount);
+        Material material = Material.getMaterial(type);
+
+        if (material == null) {
+            MinigameEngine.consoleWarn("Material " + type + " not found, skipping this item.", MinigameEngine.WarnPriority.HIGH);
+            return null;
+        }
+
+        ItemStack item = new ItemStack(material, amount);
         ItemMeta meta = item.getItemMeta();
 
         if (meta == null) { // This is very unlikely but needed to get rid of a warning from IntelliJ

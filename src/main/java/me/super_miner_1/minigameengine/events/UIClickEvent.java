@@ -1,5 +1,6 @@
-package me.super_miner_1.minigameengine.inventoryLayouts;
+package me.super_miner_1.minigameengine.events;
 
+import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
