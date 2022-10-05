@@ -6,10 +6,6 @@ import org.bukkit.event.HandlerList;
 public class ServerStartEvent extends Event {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
-    public ServerStartEvent() {
-
-    }
-
     @Override
     public HandlerList getHandlers() {
         return HANDLERS_LIST;

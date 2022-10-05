@@ -36,6 +36,9 @@ public class GamePlayer extends GameEventHandler implements Listener {
 
     @EventHandler
     public void onTick(ServerTickEvent event) {
+        MinigameEngine.consoleLog("DEBUG");
+        player.updateInventory(); // Needed to fix ghost item glitch when opening a menu from your inventory.
+
         for (GameEffectGroup effectGroup : effectGroups) {
             effectGroup.applyEffects(this);
         }
@@ -49,10 +52,10 @@ public class GamePlayer extends GameEventHandler implements Listener {
         return player;
     }
 
-    public void morph(EntityType entityType) {
+    public Entity morph(EntityType entityType) {
         if (entityType == null) {
             morph = null;
-            return;
+            return null;
         }
 
         morph = player.getWorld().spawnEntity(player.getLocation(), entityType);
@@ -60,7 +63,9 @@ public class GamePlayer extends GameEventHandler implements Listener {
         morph.setInvulnerable(true);
         morph.setSilent(true);
 
-        addEffect(new Id("MORPH_INVIS"), PotionEffectType.INVISIBILITY, 999999, 1.0, EffectCompoundPresets.MIN, -1);
+        addEffect(new Id("MORPH_INVIS"), PotionEffectType.INVISIBILITY, -1, 1.0, EffectCompoundPresets.MIN, -1);
+
+        return morph;
     }
 
     public void unmorph() {

@@ -53,11 +53,7 @@ public final class MinigameEngine extends JavaPlugin {
 
         this.playerFactory = new GamePlayerFactory();
 
-        getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable(){
-            public void run(){
-                Bukkit.getPluginManager().callEvent(new ServerStartEvent());
-            }
-        });
+        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerStartEvent()));
 
         new BukkitRunnable() {
             @Override

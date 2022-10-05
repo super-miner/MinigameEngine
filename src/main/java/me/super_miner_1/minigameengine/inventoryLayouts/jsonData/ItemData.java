@@ -3,10 +3,12 @@ package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,6 +22,7 @@ public class ItemData {
     public ArrayList<String> lore = new ArrayList<String>();
     public ArrayList<EnchantmentData> enchantments = new ArrayList<EnchantmentData>();
     public boolean unbreakable = false;
+    public int color = 10511680;
     public ArrayList<String> flags = new ArrayList<String>();
     public boolean movable = true;
     public ArrayList<Interaction> callbacks = new ArrayList<Interaction>();
@@ -83,6 +86,11 @@ public class ItemData {
         }
 
         meta.setUnbreakable(unbreakable);
+
+        if (meta instanceof LeatherArmorMeta) {
+            LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) meta;
+            leatherArmorMeta.setColor(Color.fromRGB(color));
+        }
 
         if (flags.size() > 0) {
             for (String flag : flags) {
