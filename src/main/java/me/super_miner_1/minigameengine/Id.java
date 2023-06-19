@@ -23,4 +23,12 @@ public class Id {
             return !id.isNumber && stringId.equals(id.stringId);
         }
     }
+
+    public int getNumberId() {
+        return numberId;
+    }
+
+    public String getStringId() {
+        return stringId;
+    }
 }

@@ -1,4 +1,4 @@
-package me.super_miner_1.minigameengine.events;
+package me.super_miner_1.minigameengine.events.external;
 
 import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.entity.Player;

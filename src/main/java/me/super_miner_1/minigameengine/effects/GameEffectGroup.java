@@ -19,7 +19,7 @@ public class GameEffectGroup {
         this.type = type;
     }
 
-    public void applyEffects(GamePlayer player) {
+    public double calculateEffects(GamePlayer player) {
         effects.sort((GameEffect effectA, GameEffect effectB) -> Integer.compare(effectB.getPriority(), effectA.getPriority()));
 
         double value = 0.0;
@@ -43,12 +43,14 @@ public class GameEffectGroup {
 
         if (type != null) {
             if (value > 0) {
-                player.getPlayer().addPotionEffect(new PotionEffect(type, 1, (int) Math.round(value), ambient, particles, icon));
+                player.getPlayer().addPotionEffect(new PotionEffect(type, 999999, (int) Math.round(value), ambient, particles, icon));
             }
             else {
                 player.getPlayer().removePotionEffect(type);
             }
         }
+
+        return value;
     }
 
     public GameEffect addEffect(GameEffect effect) {

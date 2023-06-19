@@ -2,8 +2,10 @@ package me.super_miner_1.minigameengine;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.super_miner_1.minigameengine.events.ServerStartEvent;
-import me.super_miner_1.minigameengine.events.ServerTickEvent;
+import me.super_miner_1.minigameengine.events.external.ServerStartEvent;
+import me.super_miner_1.minigameengine.events.external.ServerTickEvent;
+import me.super_miner_1.minigameengine.events.internal.InternalServerStartEvent;
+import me.super_miner_1.minigameengine.events.internal.InternalServerTickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -53,7 +55,10 @@ public final class MinigameEngine extends JavaPlugin {
 
         this.playerFactory = new GamePlayerFactory();
 
-        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> Bukkit.getPluginManager().callEvent(new ServerStartEvent()));
+        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+            Bukkit.getPluginManager().callEvent(new ServerStartEvent());
+            Bukkit.getPluginManager().callEvent(new InternalServerStartEvent());
+        });
 
         new BukkitRunnable() {
             @Override
@@ -70,6 +75,7 @@ public final class MinigameEngine extends JavaPlugin {
         currentUpdateTime = Time.getTime();
 
         Bukkit.getPluginManager().callEvent(new ServerTickEvent(getDeltaTime()));
+        Bukkit.getPluginManager().callEvent(new InternalServerTickEvent(getDeltaTime()));
 
         ticksSinceStart ++;
     }

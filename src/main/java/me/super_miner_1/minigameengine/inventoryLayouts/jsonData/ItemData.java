@@ -5,6 +5,8 @@ import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -13,7 +15,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ItemData {
     public String type;
@@ -21,6 +22,7 @@ public class ItemData {
     public String name = "";
     public ArrayList<String> lore = new ArrayList<String>();
     public ArrayList<EnchantmentData> enchantments = new ArrayList<EnchantmentData>();
+    public ArrayList<AttributeData> attributes = new ArrayList<AttributeData>();
     public boolean unbreakable = false;
     public int color = 10511680;
     public ArrayList<String> flags = new ArrayList<String>();
@@ -82,6 +84,12 @@ public class ItemData {
         if (enchantments.size() > 0) {
             for (EnchantmentData enchantmentData : enchantments) {
                 meta.addEnchant(enchantmentData.getEnchantment(), enchantmentData.level, true);
+            }
+        }
+
+        if (attributes.size() > 0) {
+            for (AttributeData attributeData : attributes) {
+                meta.addAttributeModifier(attributeData.getAttribute(), new AttributeModifier(attributeData.attribute, attributeData.baseLevel, AttributeModifier.Operation.ADD_NUMBER));
             }
         }
 

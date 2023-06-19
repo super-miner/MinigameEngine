@@ -41,6 +41,7 @@ public class InventoryLayout {
     }
 
     public void apply(Inventory inventory) {
+        inventory.clear();
         for (InventoryLayer layer : layers) {
             layer.apply(inventory);
         }

@@ -1,16 +1,16 @@
-package me.super_miner_1.minigameengine.events;
+package me.super_miner_1.minigameengine.events.internal;
 
 import me.super_miner_1.minigameengine.effects.GameEffect;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PotionEffectExpireEvent extends Event {
+public class InternalPotionEffectExpireEvent extends Event {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     Player player = null;
     GameEffect effect = null;
 
-    public PotionEffectExpireEvent(Player player, GameEffect effect) {
+    public InternalPotionEffectExpireEvent(Player player, GameEffect effect) {
         this.player = player;
         this.effect = effect;
     }

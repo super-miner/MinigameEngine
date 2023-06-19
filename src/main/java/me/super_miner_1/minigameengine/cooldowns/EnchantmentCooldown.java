@@ -14,6 +14,10 @@ public class EnchantmentCooldown extends Cooldown {
 
         this.itemStack = itemStack;
 
+        if (itemStack == null) {
+            return;
+        }
+
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta == null) {
@@ -28,6 +32,10 @@ public class EnchantmentCooldown extends Cooldown {
 
         this.itemStack = itemStack;
 
+        if (itemStack == null) {
+            return;
+        }
+
         ItemMeta meta = itemStack.getItemMeta();
 
         if (meta == null) {
@@ -38,14 +46,18 @@ public class EnchantmentCooldown extends Cooldown {
     }
 
     @Override
-    public void run() {
+    public void onTick() {
         if (!active) {
+            return;
+        }
+
+        if (itemStack == null) {
             return;
         }
 
         if (getTimeLeft() > 0) {
             if (!itemStack.containsEnchantment(Enchantment.LUCK)) {
-                itemStack.addEnchantment(Enchantment.LUCK, 1);
+                //itemStack.addEnchantment(Enchantment.LUCK, 1);
             }
 
             ItemMeta meta = itemStack.getItemMeta();
@@ -60,6 +72,8 @@ public class EnchantmentCooldown extends Cooldown {
             else {
                 meta.setDisplayName(originalName);
             }
+
+            itemStack.setItemMeta(meta);
         }
         else {
             itemStack.removeEnchantment(Enchantment.LUCK);
@@ -69,5 +83,15 @@ public class EnchantmentCooldown extends Cooldown {
     @Override
     public void cancel() {
         itemStack.removeEnchantment(Enchantment.LUCK);
+
+        ItemMeta meta = itemStack.getItemMeta();
+
+        if (meta == null) {
+            return;
+        }
+
+        meta.setDisplayName(originalName);
+
+        itemStack.setItemMeta(meta);
     }
 }

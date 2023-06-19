@@ -4,7 +4,8 @@ import me.super_miner_1.minigameengine.GamePlayer;
 import me.super_miner_1.minigameengine.Id;
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.Time;
-import me.super_miner_1.minigameengine.events.PotionEffectExpireEvent;
+import me.super_miner_1.minigameengine.events.external.PotionEffectExpireEvent;
+import me.super_miner_1.minigameengine.events.internal.InternalPotionEffectExpireEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -48,6 +49,7 @@ public class GameEffect {
             @Override
             public void run() {
                 Bukkit.getPluginManager().callEvent(new PotionEffectExpireEvent(player.getPlayer(), thisReference));
+                Bukkit.getPluginManager().callEvent(new InternalPotionEffectExpireEvent(player.getPlayer(), thisReference));
                 cancel();
             }
         }.runTaskTimer(MinigameEngine.engine, this.duration, 0);

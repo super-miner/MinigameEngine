@@ -40,7 +40,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\user\Desktop\Games\Plugins\BoomRunMinigameEngine\plugins\MinigameEngine.jar</outputFile>
+                            <outputFile>C:\Users\user\Desktop\Games\Modding\Minecraft\BoomRunMinigameEngine\plugins\MinigameEngine.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

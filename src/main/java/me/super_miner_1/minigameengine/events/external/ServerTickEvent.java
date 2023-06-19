@@ -1,4 +1,4 @@
-package me.super_miner_1.minigameengine.events;
+package me.super_miner_1.minigameengine.events.external;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

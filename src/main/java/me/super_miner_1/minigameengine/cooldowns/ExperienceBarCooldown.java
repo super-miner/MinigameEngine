@@ -12,7 +12,7 @@ public class ExperienceBarCooldown extends Cooldown {
     }
 
     @Override
-    public void run() {
+    public void onTick() {
         if (!active) {
             return;
         }

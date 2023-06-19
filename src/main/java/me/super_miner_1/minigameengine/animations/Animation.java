@@ -1,7 +1,7 @@
 package me.super_miner_1.minigameengine.animations;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
-import me.super_miner_1.minigameengine.events.ServerTickEvent;
+import me.super_miner_1.minigameengine.events.external.ServerTickEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

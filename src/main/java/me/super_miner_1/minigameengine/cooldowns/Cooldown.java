@@ -1,10 +1,14 @@
 package me.super_miner_1.minigameengine.cooldowns;
 
 import me.super_miner_1.minigameengine.Id;
+import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.Time;
+import me.super_miner_1.minigameengine.events.internal.InternalServerTickEvent;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-public class Cooldown {
+public class Cooldown implements Listener {
     protected Id id;
     protected Player player;
     protected long startTime;
@@ -18,6 +22,8 @@ public class Cooldown {
         this.startTime = Time.getTime();
         this.endTime = startTime + length;
         this.length = length;
+
+        MinigameEngine.engine.getServer().getPluginManager().registerEvents(this, MinigameEngine.engine);
     }
 
     public Cooldown(String id, Player player, long length) {
@@ -26,9 +32,11 @@ public class Cooldown {
         this.startTime = Time.getTime();
         this.endTime = startTime + length;
         this.length = length;
+
+        MinigameEngine.engine.getServer().getPluginManager().registerEvents(this, MinigameEngine.engine);
     }
 
-    public void run() {
+    public void onTick() {
 
     }
 
@@ -42,5 +50,10 @@ public class Cooldown {
 
     public void setActive(boolean value) {
         active = value;
+    }
+
+    @EventHandler
+    public void onServerTick(InternalServerTickEvent event) {
+        onTick();
     }
 }
