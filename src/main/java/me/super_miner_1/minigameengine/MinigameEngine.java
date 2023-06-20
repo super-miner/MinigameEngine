@@ -97,7 +97,7 @@ public final class MinigameEngine extends JavaPlugin {
         return random;
     }
 
-    public void SetRandom(Random random) {
+    public void setRandom(Random random) {
         this.random = random;
     }
 

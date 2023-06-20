@@ -118,6 +118,10 @@ public class GameItemStack implements Listener {
             return;
         }
 
+        if (clickedInventory != inventory) {
+            return;
+        }
+
         ItemStack clickedItem = clickedInventory.getItem(event.getSlot());
 
         if (clickedItem == null) {
@@ -129,6 +133,8 @@ public class GameItemStack implements Listener {
 
             for (Interaction interaction : callbacks) {
                 if (interaction.isTriggered(clickType)) {
+                    //Bukkit.broadcastMessage("Broadcasting click event for player " + player.getName());
+
                     Bukkit.getPluginManager().callEvent(new UIClickEvent(player, this, interaction.id));
                     Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, this, interaction.id));
                 }
