@@ -6,14 +6,15 @@ import me.super_miner_1.minigameengine.events.external.ServerStartEvent;
 import me.super_miner_1.minigameengine.events.external.ServerTickEvent;
 import me.super_miner_1.minigameengine.events.internal.InternalServerStartEvent;
 import me.super_miner_1.minigameengine.events.internal.InternalServerTickEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public final class MinigameEngine extends JavaPlugin {
     public static MinigameEngine engine;
@@ -25,6 +26,7 @@ public final class MinigameEngine extends JavaPlugin {
     }
 
     private Gson gson = null;
+    private Random random = null;
     private long startingMilliseconds = 0;
     private long ticksSinceStart = 0;
     private long lastUpdateTime = 0;
@@ -47,6 +49,8 @@ public final class MinigameEngine extends JavaPlugin {
         GsonBuilder builder = new GsonBuilder();
         builder.setPrettyPrinting();
         this.gson = builder.create();
+
+        this.random = new Random();
 
         this.startingMilliseconds = System.currentTimeMillis();
 
@@ -87,6 +91,14 @@ public final class MinigameEngine extends JavaPlugin {
 
     public Gson getGson() {
         return gson;
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+
+    public void SetRandom(Random random) {
+        this.random = random;
     }
 
     public long getMillisecondsSinceStart() {

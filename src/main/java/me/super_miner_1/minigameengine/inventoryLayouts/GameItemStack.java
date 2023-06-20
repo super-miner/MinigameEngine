@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
@@ -91,6 +92,10 @@ public class GameItemStack implements Listener {
 
     public GameItemStack clone() {
         return new GameItemStack(item.clone(), movable, (ArrayList<Interaction>) callbacks.clone(), inventory, slot);
+    }
+
+    public void Destroy() {
+        HandlerList.unregisterAll(this);
     }
 
     @EventHandler
