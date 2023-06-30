@@ -1,6 +1,7 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
+import me.super_miner_1.minigameengine.inventoryLayouts.GameInventory;
 import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -22,6 +23,8 @@ public class InventoryLayer {
     public int column2;
 
     public void apply(Inventory inventory) {
+        GameInventory
+
         GameItemStack gameItemStack = ItemData.getItem(item);
 
         if (gameItemStack == null) {

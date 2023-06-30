@@ -25,7 +25,7 @@ public class GameItemStack implements Listener {
     private ItemStack item = null;
     private boolean movable = true;
     private ArrayList<Interaction> callbacks = new ArrayList<Interaction>();
-    private Inventory inventory = null;
+    private GameInventory inventory = null;
     private int slot = -1;
 
     public GameItemStack(ItemStack item) {
@@ -38,7 +38,7 @@ public class GameItemStack implements Listener {
         this.callbacks = callbacks;
     }
 
-    public GameItemStack(ItemStack item, boolean movable, ArrayList<Interaction> callbacks, Inventory inventory, int slot) {
+    public GameItemStack(ItemStack item, boolean movable, ArrayList<Interaction> callbacks, GameInventory inventory, int slot) {
         this.item = item;
         this.movable = movable;
         this.callbacks = callbacks;
@@ -47,7 +47,7 @@ public class GameItemStack implements Listener {
     }
 
     public void updateInventory() {
-        inventory.setItem(slot, item);
+        inventory.getInventory().setItem(slot, item);
     }
 
     public ItemStack getItemStack() {
@@ -82,11 +82,11 @@ public class GameItemStack implements Listener {
         this.slot = slot;
     }
 
-    public Inventory getInventory() {
+    public GameInventory getInventory() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
+    public void setInventory(GameInventory inventory) {
         this.inventory = inventory;
     }
 
