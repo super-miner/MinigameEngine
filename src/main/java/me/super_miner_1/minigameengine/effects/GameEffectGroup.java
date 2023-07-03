@@ -54,8 +54,6 @@ public class GameEffectGroup {
     }
 
     public GameEffect addEffect(GameEffect effect) {
-        Bukkit.broadcastMessage("Adding effect to group");
-
         effects.add(effect);
         return effect;
     }

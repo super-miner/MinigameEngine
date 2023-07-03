@@ -1,7 +1,8 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
+import de.tr7zw.nbtapi.NBTItem;
 import me.super_miner_1.minigameengine.MinigameEngine;
-import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
+import me.super_miner_1.minigameengine.inventoryLayouts.ItemStackUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -42,7 +43,7 @@ public class ItemData {
         return null;
     }
 
-    public static GameItemStack getItem(String filePath) {
+    public static ItemStack getItem(String filePath) {
         ItemData itemData = load(filePath);
 
         if (itemData == null) {
@@ -55,7 +56,8 @@ public class ItemData {
             return null;
         }
 
-        return new GameItemStack(item, itemData.movable, itemData.callbacks);
+        //return new GameItemStack(item, itemData.movable, itemData.callbacks);
+        return item;
     }
 
     public ItemStack createItem() {
@@ -107,6 +109,9 @@ public class ItemData {
         }
 
         item.setItemMeta(meta);
+
+        item = ItemStackUtility.setMovable(item, movable);
+        item = ItemStackUtility.setCallbacks(item, callbacks);
 
         return item;
     }

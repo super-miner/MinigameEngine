@@ -1,20 +1,23 @@
 package me.super_miner_1.minigameengine.events.internal;
 
-import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class InternalUIClickEvent extends Event implements Cancellable {
     private Player player;
-    private GameItemStack item;
+    private Inventory inventory;
+    private ItemStack item;
     private String callbackId;
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled;
 
-    public InternalUIClickEvent(Player player, GameItemStack item, String callbackId) {
+    public InternalUIClickEvent(Player player, Inventory inventory, ItemStack item, String callbackId) {
         this.player = player;
+        this.inventory = inventory;
         this.item = item;
         this.callbackId = callbackId;
     }
@@ -42,7 +45,11 @@ public class InternalUIClickEvent extends Event implements Cancellable {
         return player;
     }
 
-    public GameItemStack getItem() {
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public ItemStack getItem() {
         return item;
     }
 

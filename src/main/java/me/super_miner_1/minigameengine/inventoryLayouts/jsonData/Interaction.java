@@ -47,6 +47,11 @@ public class Interaction {
     public String interaction;
     public String id;
 
+    public Interaction(String interaction, String id) {
+        this.interaction = interaction;
+        this.id = id;
+    }
+
     public boolean isTriggered(ClickType clickType) {
         int bitMask = maskMap.get(interaction);
 

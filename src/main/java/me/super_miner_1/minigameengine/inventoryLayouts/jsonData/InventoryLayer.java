@@ -1,10 +1,8 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
-import me.super_miner_1.minigameengine.inventoryLayouts.GameInventory;
-import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class InventoryLayer {
     public int layer;
@@ -23,36 +21,25 @@ public class InventoryLayer {
     public int column2;
 
     public void apply(Inventory inventory) {
-        GameInventory
+        ItemStack itemStack = ItemData.getItem(item);
 
-        GameItemStack gameItemStack = ItemData.getItem(item);
-
-        if (gameItemStack == null) {
+        if (itemStack == null) {
             MinigameEngine.consoleWarn("Item at path " + item + " not found, skipping this item.", MinigameEngine.WarnPriority.HIGH);
             return;
         }
 
-        GameItemStack gameItemStackCopy;
+        ItemStack gameItemStackCopy;
 
         switch(action) {
             case "SINGLE":
-                gameItemStackCopy = gameItemStack.clone();
-                gameItemStackCopy.setInventory(inventory);
-                gameItemStackCopy.setSlot(getSlot());
-
-                MinigameEngine.engine.getServer().getPluginManager().registerEvents(gameItemStackCopy, MinigameEngine.engine);
-
-                inventory.setItem(getSlot(), gameItemStackCopy.getItemStack());
+                gameItemStackCopy = itemStack.clone();
+                inventory.setItem(getSlot(), gameItemStackCopy);
                 break;
             case "RECT":
                 for (int y = row1 - 1; y < row2; y++) {
                     for (int x = column1 - 1; x < column2; x++) {
-                        gameItemStackCopy = gameItemStack.clone();
-                        gameItemStackCopy.setInventory(inventory);
-                        gameItemStackCopy.setSlot(y * 9 + x);
-                        MinigameEngine.engine.getServer().getPluginManager().registerEvents(gameItemStackCopy, MinigameEngine.engine);
-
-                        inventory.setItem(y * 9 + x, gameItemStackCopy.getItemStack());
+                        gameItemStackCopy = itemStack.clone();
+                        inventory.setItem(y * 9 + x, gameItemStackCopy);
                     }
                 }
 

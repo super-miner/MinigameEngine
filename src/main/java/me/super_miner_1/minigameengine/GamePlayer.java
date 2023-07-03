@@ -30,8 +30,6 @@ public class GamePlayer implements Listener {
         super();
 
         this.player = player;
-
-        //Bukkit.broadcastMessage("Adding listener to " + player.getPlayer().getName());
         MinigameEngine.engine.getServer().getPluginManager().registerEvents(this, MinigameEngine.engine);
     }
 
