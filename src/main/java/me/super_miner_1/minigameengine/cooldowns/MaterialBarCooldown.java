@@ -1,15 +1,17 @@
 package me.super_miner_1.minigameengine.cooldowns;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class EnchantmentCooldown extends Cooldown {
+public class MaterialBarCooldown extends Cooldown {
     protected ItemStack itemStack;
     protected String originalName;
 
-    public EnchantmentCooldown(int id, Player player, ItemStack itemStack, long length) {
+    public MaterialBarCooldown(int id, Player player, ItemStack itemStack, long length) {
         super(id, player, length);
 
         this.itemStack = itemStack;
@@ -25,9 +27,15 @@ public class EnchantmentCooldown extends Cooldown {
         }
 
         originalName = meta.getDisplayName();
+
+        if (itemStack.getType() == Material.AIR) {
+            return;
+        }
+
+        player.getPlayer().setCooldown(itemStack.getType(), (int) length);
     }
 
-    public EnchantmentCooldown(String id, Player player, ItemStack itemStack, long length) {
+    public MaterialBarCooldown(String id, Player player, ItemStack itemStack, long length) {
         super(id, player, length);
 
         this.itemStack = itemStack;
@@ -43,6 +51,12 @@ public class EnchantmentCooldown extends Cooldown {
         }
 
         originalName = meta.getDisplayName();
+
+        if (itemStack.getType() == Material.AIR) {
+            return;
+        }
+
+        player.getPlayer().setCooldown(itemStack.getType(), (int) length);
     }
 
     @Override
@@ -56,17 +70,13 @@ public class EnchantmentCooldown extends Cooldown {
         }
 
         if (getTimeLeft() > 0) {
-            if (!itemStack.containsEnchantment(Enchantment.LUCK)) {
-                //itemStack.addEnchantment(Enchantment.LUCK, 1);
-            }
-
             ItemMeta meta = itemStack.getItemMeta();
 
             if (meta == null) {
                 return;
             }
 
-            if (getTimeLeft() > 0) {
+            if (getTimeLeft() > 20) {
                 meta.setDisplayName(originalName + " (" + ((int) Math.floor(getTimeLeft() / 20.0) + 1) + ")");
             }
             else {

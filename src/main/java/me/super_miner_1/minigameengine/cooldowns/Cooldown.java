@@ -36,6 +36,10 @@ public class Cooldown implements Listener {
         MinigameEngine.engine.getServer().getPluginManager().registerEvents(this, MinigameEngine.engine);
     }
 
+    public void start() {
+
+    }
+
     public void onTick() {
 
     }
