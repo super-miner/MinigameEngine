@@ -73,9 +73,6 @@ public class ItemStackUtility implements Listener {
             callbacksNBT.addCompound(callbackNBT);
         }
 
-        Bukkit.broadcastMessage(String.valueOf(callbacksNBT.size()));
-        Bukkit.broadcastMessage(String.valueOf(itemNBT.getCompoundList("Callbacks").size()));
-
         return itemNBT.getItem();
     }
 
