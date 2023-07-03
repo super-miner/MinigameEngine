@@ -67,7 +67,7 @@ public class EnchantmentCooldown extends Cooldown {
             }
 
             if (getTimeLeft() > 20) {
-                meta.setDisplayName(originalName + " (" + Math.floor(getTimeLeft() / 20.0) + ")");
+                meta.setDisplayName(originalName + " (" + ((int) Math.floor(getTimeLeft() / 20.0)) + ")");
             }
             else {
                 meta.setDisplayName(originalName);
