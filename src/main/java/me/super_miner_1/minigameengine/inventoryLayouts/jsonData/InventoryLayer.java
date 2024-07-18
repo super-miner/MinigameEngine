@@ -1,6 +1,8 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
+import me.super_miner_1.minigameengine.inventoryLayouts.GameInventory;
+import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,25 +23,28 @@ public class InventoryLayer {
     public int column2;
 
     public void apply(Inventory inventory) {
-        ItemStack itemStack = ItemData.getItem(item);
+        GameInventory gameInventory = new GameInventory(inventory);
+        GameItemStack gameItem = ItemData.getItem(item);
 
-        if (itemStack == null) {
+        if (gameItem.getItemStack() == null) {
             MinigameEngine.consoleWarn("Item at path " + item + " not found, skipping this item.", MinigameEngine.WarnPriority.HIGH);
             return;
         }
 
-        ItemStack gameItemStackCopy;
+        GameItemStack gameItemStackCopy;
 
         switch(action) {
             case "SINGLE":
-                gameItemStackCopy = itemStack.clone();
-                inventory.setItem(getSlot(), gameItemStackCopy);
+                gameItemStackCopy = gameItem.clone();
+                gameInventory.setItem(getSlot(), gameItemStackCopy);
+                gameItemStackCopy.setItemStack(inventory.getItem(getSlot()));
                 break;
             case "RECT":
                 for (int y = row1 - 1; y < row2; y++) {
                     for (int x = column1 - 1; x < column2; x++) {
-                        gameItemStackCopy = itemStack.clone();
-                        inventory.setItem(y * 9 + x, gameItemStackCopy);
+                        gameItemStackCopy = gameItem.clone();
+                        gameInventory.setItem(y * 9 + x, gameItemStackCopy);
+                        gameItemStackCopy.setItemStack(inventory.getItem(y * 9 + x));
                     }
                 }
 

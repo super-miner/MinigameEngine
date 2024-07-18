@@ -1,24 +1,25 @@
 package me.super_miner_1.minigameengine.cooldowns;
 
+import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class EnchantmentCooldown extends Cooldown {
-    protected ItemStack itemStack;
+    protected GameItemStack gameItem;
     protected String originalName;
 
-    public EnchantmentCooldown(int id, Player player, ItemStack itemStack, long length) {
+    public EnchantmentCooldown(int id, Player player, GameItemStack gameItem, long length) {
         super(id, player, length);
 
-        this.itemStack = itemStack;
+        this.gameItem = gameItem;
 
-        if (itemStack == null) {
+        if (gameItem.getItemStack() == null) {
             return;
         }
 
-        ItemMeta meta = itemStack.getItemMeta();
+        ItemMeta meta = gameItem.getItemStack().getItemMeta();
 
         if (meta == null) {
             return;
@@ -27,16 +28,16 @@ public class EnchantmentCooldown extends Cooldown {
         originalName = meta.getDisplayName();
     }
 
-    public EnchantmentCooldown(String id, Player player, ItemStack itemStack, long length) {
+    public EnchantmentCooldown(String id, Player player, GameItemStack gameItem, long length) {
         super(id, player, length);
 
-        this.itemStack = itemStack;
+        this.gameItem = gameItem;
 
-        if (itemStack == null) {
+        if (gameItem.getItemStack() == null) {
             return;
         }
 
-        ItemMeta meta = itemStack.getItemMeta();
+        ItemMeta meta = gameItem.getItemStack().getItemMeta();
 
         if (meta == null) {
             return;
@@ -51,37 +52,47 @@ public class EnchantmentCooldown extends Cooldown {
             return;
         }
 
-        if (itemStack == null) {
+        ItemStack item = gameItem.getItemStack();
+
+        if (item == null) {
             return;
         }
 
         if (getTimeLeft() > 0) {
-            if (!itemStack.containsEnchantment(Enchantment.LUCK)) {
-                //itemStack.addEnchantment(Enchantment.LUCK, 1);
+            if (!item.containsEnchantment(Enchantment.LUCK)) {
+                item.addEnchantment(Enchantment.LUCK, 1);
+                gameItem.setItemStack(item);
             }
 
-            ItemMeta meta = itemStack.getItemMeta();
+            ItemMeta meta = item.getItemMeta();
 
             if (meta == null) {
                 return;
             }
 
-            if (getTimeLeft() > 0) {
+            if (getTimeLeft() > 1) {
                 meta.setDisplayName(originalName + " (" + ((int) Math.floor(getTimeLeft() / 20.0) + 1) + ")");
             }
             else {
                 meta.setDisplayName(originalName);
             }
 
-            itemStack.setItemMeta(meta);
+            item.setItemMeta(meta);
+            gameItem.setItemStack(item);
+        }
+        else {
+            item.removeEnchantment(Enchantment.LUCK);
+            gameItem.setItemStack(item);
         }
     }
 
     @Override
     public void cancel() {
-        itemStack.removeEnchantment(Enchantment.LUCK);
+        ItemStack item = gameItem.getItemStack();
+        item.removeEnchantment(Enchantment.LUCK);
+        gameItem.setItemStack(item);
 
-        ItemMeta meta = itemStack.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
 
         if (meta == null) {
             return;
@@ -89,6 +100,7 @@ public class EnchantmentCooldown extends Cooldown {
 
         meta.setDisplayName(originalName);
 
-        itemStack.setItemMeta(meta);
+        item.setItemMeta(meta);
+        gameItem.setItemStack(item);
     }
 }

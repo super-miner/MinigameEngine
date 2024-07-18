@@ -4,13 +4,12 @@ import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.iface.ReadWriteNBT;
-import de.tr7zw.nbtapi.plugin.NBTAPI;
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.events.external.UIClickEvent;
 import me.super_miner_1.minigameengine.events.internal.InternalUIClickEvent;
 import me.super_miner_1.minigameengine.inventoryLayouts.jsonData.Interaction;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,50 +29,8 @@ public class ItemStackUtility implements Listener {
         MinigameEngine.engine.getServer().getPluginManager().registerEvents(this, MinigameEngine.engine);
     }
 
-    public static boolean getMovable(ItemStack item) {
-        NBTItem itemNBT = new NBTItem(item);
-
-        return itemNBT.getBoolean("Movable");
-    }
-
-    public static ItemStack setMovable(ItemStack item, boolean movable) {
-        NBTItem itemNBT = new NBTItem(item);
-
-        itemNBT.setBoolean("Movable", movable);
-
-        return itemNBT.getItem();
-    }
-
-    public static ArrayList<Interaction> getCallbacks(ItemStack item) {
-        NBTItem itemNBT = new NBTItem(item);
-        NBTCompoundList callbacksNBT = itemNBT.getCompoundList("Callbacks");
-
-        ArrayList<Interaction> callbacks = new ArrayList<Interaction>();
-
-        for (int i = 0; i < callbacksNBT.size(); i++) {
-            NBTCompound callback = callbacksNBT.get(i);
-
-            callbacks.add(new Interaction(callback.getString("Interaction"), callback.getString("Id")));
-        }
-
-        return callbacks;
-    }
-
-    public static ItemStack setCallbacks(ItemStack item, ArrayList<Interaction> callbacks) {
-        NBTItem itemNBT = new NBTItem(item);
-        NBTCompoundList callbacksNBT = itemNBT.getCompoundList("Callbacks");
-        callbacksNBT.clear();
-
-        for (Interaction callback : callbacks) {
-            NBTCompound callbackNBT = new NBTContainer();
-
-            callbackNBT.setString("Interaction", callback.interaction);
-            callbackNBT.setString("Id", callback.id);
-
-            callbacksNBT.addCompound(callbackNBT);
-        }
-
-        return itemNBT.getItem();
+    public static boolean isBlankItem(ItemStack item) {
+        return item == null || item.getType() == Material.AIR || item.getAmount() == 0;
     }
 
     @EventHandler
@@ -88,24 +45,24 @@ public class ItemStackUtility implements Listener {
 
         Inventory clickedInventory = event.getClickedInventory();
 
-        ItemStack clickedItem = clickedInventory.getItem(event.getSlot());
+        GameItemStack clickedGameItem = GameItemStack.getGameItemStack(clickedInventory.getItem(event.getSlot()));
 
-        if (clickedItem == null) {
+        if (clickedGameItem == null) {
             return;
         }
 
-        ArrayList<Interaction> callbacks = getCallbacks(clickedItem);
+        ArrayList<Interaction> callbacks = clickedGameItem.getCallbacks();
 
         ClickType clickType = event.getClick();
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(clickType)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedItem, interaction.id));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
             }
         }
 
-        if (!getMovable(clickedItem)) {
+        if (!clickedGameItem.getMovable()) {
             event.setCancelled(true);
         }
     }
@@ -116,24 +73,24 @@ public class ItemStackUtility implements Listener {
 
         Inventory clickedInventory = player.getInventory();
 
-        ItemStack clickedItem = event.getItem();
+        GameItemStack clickedGameItem = GameItemStack.getGameItemStack(event.getItem());
 
-        if (clickedItem == null) {
+        if (clickedGameItem == null) {
             return;
         }
 
-        ArrayList<Interaction> callbacks = getCallbacks(clickedItem);
+        ArrayList<Interaction> callbacks = clickedGameItem.getCallbacks();
 
         Action action = event.getAction();
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(action)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedItem, interaction.id));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
             }
         }
 
-        if (!getMovable(clickedItem)) {
+        if (!clickedGameItem.getMovable()) {
             event.setCancelled(true);
         }
     }
@@ -144,18 +101,22 @@ public class ItemStackUtility implements Listener {
 
         Inventory clickedInventory = player.getInventory();
 
-        ItemStack clickedItem = event.getItemDrop().getItemStack();
+        GameItemStack clickedGameItem = GameItemStack.getGameItemStack(event.getItemDrop().getItemStack());
 
-        ArrayList<Interaction> callbacks = getCallbacks(clickedItem);
+        if (clickedGameItem == null) {
+            return;
+        }
+
+        ArrayList<Interaction> callbacks = clickedGameItem.getCallbacks();
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(true)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedItem, interaction.id));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
             }
         }
 
-        if (!getMovable(clickedItem)) {
+        if (!clickedGameItem.getMovable()) {
             event.setCancelled(true);
         }
     }
