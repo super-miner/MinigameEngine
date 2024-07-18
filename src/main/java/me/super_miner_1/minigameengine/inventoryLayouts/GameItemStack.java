@@ -5,6 +5,7 @@ import de.tr7zw.nbtapi.NBTCompoundList;
 import de.tr7zw.nbtapi.NBTContainer;
 import de.tr7zw.nbtapi.NBTItem;
 import me.super_miner_1.minigameengine.inventoryLayouts.jsonData.Interaction;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -147,7 +148,7 @@ public class GameItemStack {
 
     public void updateItemStacks() {
         for (ItemStackLocation itemLocation : itemLocations) {
-            itemLocation.Set(item);
+            itemLocation.set(item);
         }
     }
 
@@ -158,9 +159,19 @@ public class GameItemStack {
     }
 
     public void removeItemLocation(int slot, Inventory inventory) {
-        ItemStackLocation itemLocation = new ItemStackLocation(slot, inventory);
+        ItemStackLocation oldItemLocation = new ItemStackLocation(slot, inventory);
 
-        itemLocations.remove(itemLocation);
+        //Bukkit.broadcastMessage("Removing item from slot " + slot);
+
+        for (int i = 0; i < itemLocations.size(); i++) {
+            ItemStackLocation itemLocation = itemLocations.get(i);
+
+            if (itemLocation.equals(oldItemLocation)) {
+                itemLocations.remove(i);
+
+                break;
+            }
+        }
 
         inventory.setItem(slot, null);
     }

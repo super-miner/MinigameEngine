@@ -12,11 +12,15 @@ public class ItemStackLocation {
         this.inventory = inventory;
     }
 
-    public void Set(ItemStack item) {
+    public void set(ItemStack item) {
         inventory.setItem(slot, item);
     }
 
-    public ItemStack Get() {
+    public ItemStack get() {
         return inventory.getItem(slot);
+    }
+
+    public boolean equals(ItemStackLocation other) {
+        return slot == other.slot && inventory == other.inventory;
     }
 }

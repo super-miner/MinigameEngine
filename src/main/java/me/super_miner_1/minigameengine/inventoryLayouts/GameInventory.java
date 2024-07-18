@@ -35,7 +35,7 @@ public class GameInventory {
                 continue;
             }
 
-            gameItem.removeItemLocation(i, inventory);
+            setItem(i, null);
         }
     }
 }
