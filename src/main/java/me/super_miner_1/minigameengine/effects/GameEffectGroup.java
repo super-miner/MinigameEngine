@@ -42,6 +42,7 @@ public class GameEffectGroup {
         }
 
         if (type != null) {
+            //Bukkit.broadcastMessage("Effect: " + type + ", Value: " + (int) Math.round(value));
             if (value > 0) {
                 player.getPlayer().addPotionEffect(new PotionEffect(type, 999999, (int) Math.round(value), ambient, particles, icon));
             }
