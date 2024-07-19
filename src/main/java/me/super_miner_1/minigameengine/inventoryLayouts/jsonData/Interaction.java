@@ -1,11 +1,9 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
-import me.super_miner_1.minigameengine.MinigameEngine;
-import org.bukkit.Bukkit;
+
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 
-import java.util.Dictionary;
 import java.util.HashMap;
 
 public class Interaction {

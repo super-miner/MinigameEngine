@@ -8,7 +8,6 @@ import me.super_miner_1.minigameengine.events.internal.InternalPotionEffectExpir
 import me.super_miner_1.minigameengine.events.internal.InternalServerTickEvent;
 import me.super_miner_1.minigameengine.inventoryLayouts.GameInventory;
 import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -71,7 +70,7 @@ public class GamePlayer implements Listener {
             livingEntityMorph.setRemoveWhenFarAway(false);
         }
 
-        addEffect(new Id("MORPH_INVISIBILITY"), PotionEffectType.INVISIBILITY, -1, 1.0, EffectCompoundPresets.MAX, -1, false, false, false); // TODO: This isn't working.
+        addEffect(new Id("MORPH_INVISIBILITY"), PotionEffectType.INVISIBILITY, -1, 1.0, EffectCompoundPresets.MAX, -1, false, false, false);
 
         if (morphInventoryTemp == null) {
             morphInventoryTemp = getInventoryContents();
