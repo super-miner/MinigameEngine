@@ -45,7 +45,7 @@ public class Cooldown implements Listener {
     }
 
     public void cancel() {
-
+        active = false;
     }
 
     public long getTimeLeft() {

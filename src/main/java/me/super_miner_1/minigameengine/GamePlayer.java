@@ -71,7 +71,7 @@ public class GamePlayer implements Listener {
             livingEntityMorph.setRemoveWhenFarAway(false);
         }
 
-        addEffect(new Id("MORPH_INVISIBILITY"), PotionEffectType.INVISIBILITY, -1, 1.0, EffectCompoundPresets.MIN, -1, false, false, false);
+        addEffect(new Id("MORPH_INVISIBILITY"), PotionEffectType.INVISIBILITY, -1, 1.0, EffectCompoundPresets.MIN, -1, false, false, false); // TODO: This isn't working.
 
         if (morphInventoryTemp == null) {
             morphInventoryTemp = getInventoryContents();

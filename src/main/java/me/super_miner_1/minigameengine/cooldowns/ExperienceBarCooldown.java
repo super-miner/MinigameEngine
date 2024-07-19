@@ -32,5 +32,7 @@ public class ExperienceBarCooldown extends Cooldown {
     public void cancel() {
         player.setLevel(0);
         player.setExp(0.999f);
+
+        super.cancel();
     }
 }

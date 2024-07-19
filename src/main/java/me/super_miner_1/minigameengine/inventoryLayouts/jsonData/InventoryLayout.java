@@ -1,6 +1,7 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
+import me.super_miner_1.minigameengine.inventoryLayouts.GameInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 
@@ -41,9 +42,12 @@ public class InventoryLayout {
     }
 
     public void apply(Inventory inventory) {
-        inventory.clear();
+        GameInventory gameInventory = new GameInventory(inventory);
+
+        gameInventory.clear();
+
         for (InventoryLayer layer : layers) {
-            layer.apply(inventory);
+            layer.apply(inventory); // TODO: Pass teh game inventory in here.
         }
     }
 

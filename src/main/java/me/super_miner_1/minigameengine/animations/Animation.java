@@ -20,6 +20,12 @@ public class Animation implements Listener {
         animations.add(animation);
     }
 
+    public static void stopAllAnimations() {
+        for (Animation animation : animations) {
+            animation.forceTracksToEnd();
+        }
+    }
+
     public Animation(boolean playOnStart) {
         this.playing = playOnStart;
 

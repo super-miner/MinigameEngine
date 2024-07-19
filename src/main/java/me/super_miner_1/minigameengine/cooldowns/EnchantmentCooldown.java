@@ -102,5 +102,7 @@ public class EnchantmentCooldown extends Cooldown {
 
         item.setItemMeta(meta);
         gameItem.setItemStack(item);
+
+        super.cancel();
     }
 }
