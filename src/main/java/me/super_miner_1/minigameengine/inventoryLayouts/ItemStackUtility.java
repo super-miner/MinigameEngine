@@ -57,8 +57,8 @@ public class ItemStackUtility implements Listener {
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(clickType)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, null));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, null));
             }
         }
 
@@ -85,8 +85,8 @@ public class ItemStackUtility implements Listener {
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(action)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, event.getBlockFace()));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, event.getBlockFace()));
             }
         }
 
@@ -111,8 +111,8 @@ public class ItemStackUtility implements Listener {
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(true)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, null));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, null));
             }
         }
 
