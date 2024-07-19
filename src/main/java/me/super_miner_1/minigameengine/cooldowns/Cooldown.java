@@ -49,7 +49,12 @@ public class Cooldown implements Listener {
     }
 
     public long getTimeLeft() {
-        return endTime - Time.getTime();
+        if (active) {
+            return endTime - Time.getTime();
+        }
+        else {
+            return 0;
+        }
     }
 
     public void setActive(boolean value) {
