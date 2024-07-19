@@ -85,8 +85,8 @@ public class ItemStackUtility implements Listener {
 
         for (Interaction interaction : callbacks) {
             if (interaction.isTriggered(action)) {
-                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, event.getBlockFace()));
-                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, event.getBlockFace()));
+                Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, action == Action.LEFT_CLICK_BLOCK || action == Action.RIGHT_CLICK_BLOCK ? event.getBlockFace() : null));
+                Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, action == Action.LEFT_CLICK_BLOCK || action == Action.RIGHT_CLICK_BLOCK ? event.getBlockFace() : null));
             }
         }
 
