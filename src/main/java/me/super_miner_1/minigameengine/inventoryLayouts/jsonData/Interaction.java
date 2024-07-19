@@ -51,7 +51,7 @@ public class Interaction {
     }
 
     public boolean isTriggered(ClickType clickType) {
-        int bitMask = maskMap.get(interaction);
+        int bitMask = getBitMask(interaction);
 
         return (clickType == ClickType.LEFT         && (bitMask & maskMap.get("INVENTORY_LEFT_CLICK"))          != 0)
             || (clickType == ClickType.RIGHT        && (bitMask & maskMap.get("INVENTORY_RIGHT_CLICK"))         != 0)
@@ -66,7 +66,7 @@ public class Interaction {
     }
 
     public boolean isTriggered(Action action) {
-        int bitMask = maskMap.get(interaction);
+        int bitMask = getBitMask(interaction);
 
         return (action == Action.LEFT_CLICK_BLOCK   && (bitMask & maskMap.get("LEFT_CLICK_BLOCK"))              != 0)
             || (action == Action.RIGHT_CLICK_BLOCK  && (bitMask & maskMap.get("RIGHT_CLICK_BLOCK"))             != 0)
@@ -75,8 +75,20 @@ public class Interaction {
     }
 
     public boolean isTriggered(boolean droppedItem) {
-        int bitMask = maskMap.get(interaction);
+        int bitMask = getBitMask(interaction);
 
         return (droppedItem                         && (bitMask & maskMap.get("DROP"))                          != 0);
+    }
+
+    private int getBitMask(String interaction) {
+        String[] splitInteractions = interaction.split("\\|");
+
+        int sum = 0;
+
+        for (String splitInteraction : splitInteractions) {
+            sum += maskMap.get(splitInteraction);
+        }
+
+        return sum;
     }
 }
