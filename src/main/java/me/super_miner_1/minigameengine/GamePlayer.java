@@ -25,6 +25,7 @@ import java.util.HashMap;
 
 public class GamePlayer implements Listener {
     private static Class<? extends GamePlayer> overrideClass = GamePlayer.class;
+    private static ArrayList<? extends GamePlayer> gamePlayers = new ArrayList<GamePlayer>();
 
     protected Player player;
     protected ArrayList<GameEffectGroup> effectGroups = new ArrayList<GameEffectGroup>();
@@ -90,6 +91,10 @@ public class GamePlayer implements Listener {
             applyInventoryContents(morphInventoryTemp);
             morphInventoryTemp = null;
         }
+    }
+
+    public boolean isMorphed() {
+        return morph != null;
     }
 
     public GameEffectGroup addEffectGroup(Id id, PotionEffectType type) {

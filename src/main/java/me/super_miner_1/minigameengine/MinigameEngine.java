@@ -3,8 +3,10 @@ package me.super_miner_1.minigameengine;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.super_miner_1.minigameengine.events.external.ServerStartEvent;
+import me.super_miner_1.minigameengine.events.external.ServerStopEvent;
 import me.super_miner_1.minigameengine.events.external.ServerTickEvent;
 import me.super_miner_1.minigameengine.events.internal.InternalServerStartEvent;
+import me.super_miner_1.minigameengine.events.internal.InternalServerStopEvent;
 import me.super_miner_1.minigameengine.events.internal.InternalServerTickEvent;
 import me.super_miner_1.minigameengine.inventoryLayouts.ItemStackUtility;
 import org.bukkit.*;
@@ -87,6 +89,9 @@ public final class MinigameEngine extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Bukkit.getPluginManager().callEvent(new ServerStopEvent());
+        Bukkit.getPluginManager().callEvent(new InternalServerStopEvent());
+
         consoleLog("Minigame Engine has unloaded.");
     }
 

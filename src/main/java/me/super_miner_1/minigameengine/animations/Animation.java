@@ -2,6 +2,8 @@ package me.super_miner_1.minigameengine.animations;
 
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.events.external.ServerTickEvent;
+import me.super_miner_1.minigameengine.events.internal.InternalServerStopEvent;
+import me.super_miner_1.minigameengine.events.internal.InternalServerTickEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -46,8 +48,19 @@ public class Animation implements Listener {
         }
     }
 
+    public void forceTracksToEnd() {
+        for (AnimationTrack track : tracks) {
+            track.forceToEnd();
+        }
+    }
+
     @EventHandler
-    public void onServerTick(ServerTickEvent event) {
+    public void onServerTick(InternalServerTickEvent event) {
         advanceTracks(event.getDeltaTime());
+    }
+
+    @EventHandler
+    public void onServerStop(InternalServerStopEvent event) {
+        forceTracksToEnd();
     }
 }

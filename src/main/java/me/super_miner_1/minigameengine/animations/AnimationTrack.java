@@ -27,6 +27,13 @@ public class AnimationTrack {
         currentState.lerp(nextState, animTime);
     }
 
+    public void forceToEnd() {
+        AnimationState currentState = getCurrentState(time);
+        AnimationState finalState = getFinalState();
+
+        currentState.lerp(finalState, 1.0f);
+    }
+
     private AnimationState getCurrentState(long time) {
         if (states.size() <= 0) {
             return null;
@@ -57,5 +64,13 @@ public class AnimationTrack {
         }
 
         return best;
+    }
+
+    private AnimationState getFinalState() {
+        if (states.size() <= 0) {
+            return null;
+        }
+
+        return states.get(states.size() - 1);
     }
 }
