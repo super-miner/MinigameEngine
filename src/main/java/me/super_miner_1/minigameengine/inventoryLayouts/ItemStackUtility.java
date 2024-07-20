@@ -1,9 +1,5 @@
 package me.super_miner_1.minigameengine.inventoryLayouts;
 
-import de.tr7zw.nbtapi.NBTCompound;
-import de.tr7zw.nbtapi.NBTCompoundList;
-import de.tr7zw.nbtapi.NBTContainer;
-import de.tr7zw.nbtapi.NBTItem;
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.events.external.UIClickEvent;
 import me.super_miner_1.minigameengine.events.internal.InternalUIClickEvent;
@@ -19,6 +15,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -118,6 +115,38 @@ public class ItemStackUtility implements Listener {
 
         if (!clickedGameItem.getMovable()) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerItemHeld(PlayerItemHeldEvent event) {
+        Player player = event.getPlayer();
+
+        Inventory playerInventory = player.getInventory();
+
+        GameItemStack toGameItem = GameItemStack.getGameItemStack(playerInventory.getItem(event.getNewSlot()));
+        GameItemStack fromGameItem = GameItemStack.getGameItemStack(playerInventory.getItem(event.getPreviousSlot()));
+
+        if (toGameItem != null) {
+            ArrayList<Interaction> callbacks = toGameItem.getCallbacks();
+
+            for (Interaction interaction : callbacks) {
+                if (interaction.isTriggered(Interaction.SwapDirection.TO)) {
+                    Bukkit.getPluginManager().callEvent(new UIClickEvent(player, playerInventory, toGameItem, interaction.id, null));
+                    Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, playerInventory, toGameItem, interaction.id, null));
+                }
+            }
+        }
+
+        if (fromGameItem != null) {
+            ArrayList<Interaction> callbacks = fromGameItem.getCallbacks();
+
+            for (Interaction interaction : callbacks) {
+                if (interaction.isTriggered(Interaction.SwapDirection.FROM)) {
+                    Bukkit.getPluginManager().callEvent(new UIClickEvent(player, playerInventory, fromGameItem, interaction.id, null));
+                    Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, playerInventory, fromGameItem, interaction.id, null));
+                }
+            }
         }
     }
 }

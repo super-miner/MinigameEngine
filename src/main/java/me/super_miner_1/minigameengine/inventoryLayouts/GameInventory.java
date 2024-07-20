@@ -1,6 +1,5 @@
 package me.super_miner_1.minigameengine.inventoryLayouts;
 
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 

@@ -7,6 +7,11 @@ import org.bukkit.event.inventory.ClickType;
 import java.util.HashMap;
 
 public class Interaction {
+    public enum SwapDirection {
+        TO,
+        FROM
+    }
+
     public static HashMap<String, Integer> maskMap = new HashMap<String, Integer>() {{
         // INVENTORY
         put("INVENTORY_LEFT_CLICK", 1);
@@ -26,6 +31,8 @@ public class Interaction {
         put("LEFT_CLICK_AIR", 4096);
         put("RIGHT_CLICK_AIR", 8192);
         put("DROP", 16384);
+        put("HELD", 32768);
+        put("UNHELD", 65536);
 
         // COMBINATIONS
         put("INVENTORY_SHIFT_CLICK", 16+32);
@@ -39,7 +46,7 @@ public class Interaction {
         put("LEFT_CLICK_ALL", 1+16+1024+4096);
         put("RIGHT_CLICK_ALL", 2+32+2048+8192);
         put("CLICK", 1+2+4+8+16+32+1024+2048+4096+8192);
-        put("INTERACT", 1+2+4+8+16+32+64+128+256+512+1024+2048+4096+8192+16384);
+        put("INTERACT", 1+2+4+8+16+32+64+128+256+512+1024+2048+4096+8192+16384+32768+65536);
     }};
 
     public String interaction;
@@ -78,6 +85,13 @@ public class Interaction {
         int bitMask = getBitMask(interaction);
 
         return (droppedItem                         && (bitMask & maskMap.get("DROP"))                          != 0);
+    }
+
+    public boolean isTriggered(SwapDirection swapDirection) {
+        int bitMask = getBitMask(interaction);
+
+        return (swapDirection == SwapDirection.TO   && (bitMask & maskMap.get("HELD"))                          != 0)
+            || (swapDirection == SwapDirection.FROM && (bitMask & maskMap.get("UNHELD"))                        != 0);
     }
 
     private int getBitMask(String interaction) {
