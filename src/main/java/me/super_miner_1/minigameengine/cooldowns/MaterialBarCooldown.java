@@ -110,6 +110,8 @@ public class MaterialBarCooldown extends Cooldown {
         item.setItemMeta(meta);
         gameItem.setItemStack(item);
 
+        player.getPlayer().setCooldown(item.getType(), 0);
+
         super.cancel();
     }
 }
