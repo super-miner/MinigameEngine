@@ -11,12 +11,12 @@ public class Particles {
 
     public static void line(Location start, Vector difference, Particle particle, double particlesPerBlock) {
         Location currentLocation = start.clone();
-        Vector direction = difference.normalize();
+        Vector step = difference.clone().normalize().multiply(1.0 / particlesPerBlock);
 
         for (int i = 0; i <= difference.length() * particlesPerBlock; i++) {
-            currentLocation.getWorld().spawnParticle(particle, currentLocation, 1);
+            currentLocation.getWorld().spawnParticle(particle, currentLocation, 1, 0.0, 0.0, 0.0);
 
-            currentLocation.add(difference.multiply(1 / particlesPerBlock));
+            currentLocation = currentLocation.add(step);
         }
     }
 }
