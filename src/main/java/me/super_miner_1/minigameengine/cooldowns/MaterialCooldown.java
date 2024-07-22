@@ -93,10 +93,6 @@ public class MaterialCooldown extends Cooldown {
             item.setItemMeta(meta);
             gameItem.setItemStack(item);
         }
-        else {
-            item.setType(originalMaterial);
-            gameItem.setItemStack(item);
-        }
     }
 
     @Override

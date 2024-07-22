@@ -80,10 +80,6 @@ public class EnchantmentCooldown extends Cooldown {
             item.setItemMeta(meta);
             gameItem.setItemStack(item);
         }
-        else {
-            item.removeEnchantment(Enchantment.LUCK);
-            gameItem.setItemStack(item);
-        }
     }
 
     @Override

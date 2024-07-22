@@ -50,7 +50,13 @@ public class Cooldown implements Listener {
 
     public long getTimeLeft() {
         if (active) {
-            return endTime - Time.getTime();
+            long timeLeft = endTime - Time.getTime();
+
+            if (timeLeft <= 0) {
+                cancel();
+            }
+
+            return timeLeft;
         }
         else {
             return 0;

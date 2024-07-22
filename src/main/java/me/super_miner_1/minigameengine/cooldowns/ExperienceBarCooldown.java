@@ -22,10 +22,6 @@ public class ExperienceBarCooldown extends Cooldown {
             long timeUntil = length - getTimeLeft();
             player.setExp((float) timeUntil / length);
         }
-        else {
-            player.setLevel(0);
-            player.setExp(0.999f);
-        }
     }
 
     @Override
