@@ -16,6 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -107,7 +108,7 @@ public class ItemStackUtility implements Listener {
         ArrayList<Interaction> callbacks = clickedGameItem.getCallbacks();
 
         for (Interaction interaction : callbacks) {
-            if (interaction.isTriggered(true)) {
+            if (interaction.isTriggered(Interaction.BinaryInteraction.DROP)) {
                 Bukkit.getPluginManager().callEvent(new UIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, null));
                 Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, clickedInventory, clickedGameItem, interaction.id, null));
             }
@@ -131,7 +132,7 @@ public class ItemStackUtility implements Listener {
             ArrayList<Interaction> callbacks = toGameItem.getCallbacks();
 
             for (Interaction interaction : callbacks) {
-                if (interaction.isTriggered(Interaction.SwapDirection.TO)) {
+                if (interaction.isTriggered(Interaction.BinaryInteraction.SWAP_TO)) {
                     Bukkit.getPluginManager().callEvent(new UIClickEvent(player, playerInventory, toGameItem, interaction.id, null));
                     Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, playerInventory, toGameItem, interaction.id, null));
                 }
@@ -142,11 +143,47 @@ public class ItemStackUtility implements Listener {
             ArrayList<Interaction> callbacks = fromGameItem.getCallbacks();
 
             for (Interaction interaction : callbacks) {
-                if (interaction.isTriggered(Interaction.SwapDirection.FROM)) {
+                if (interaction.isTriggered(Interaction.BinaryInteraction.SWAP_FROM)) {
                     Bukkit.getPluginManager().callEvent(new UIClickEvent(player, playerInventory, fromGameItem, interaction.id, null));
                     Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, playerInventory, fromGameItem, interaction.id, null));
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
+        Player player = event.getPlayer();
+
+        Inventory playerInventory = player.getInventory();
+
+        GameItemStack mainHandGameItem = GameItemStack.getGameItemStack(event.getMainHandItem());
+        GameItemStack offHandGameItem = GameItemStack.getGameItemStack(event.getOffHandItem());
+
+        if (mainHandGameItem != null) {
+            ArrayList<Interaction> callbacks = mainHandGameItem.getCallbacks();
+
+            for (Interaction interaction : callbacks) {
+                if (interaction.isTriggered(Interaction.BinaryInteraction.SWAP_MAIN_HAND)) {
+                    Bukkit.getPluginManager().callEvent(new UIClickEvent(player, playerInventory, mainHandGameItem, interaction.id, null));
+                    Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, playerInventory, mainHandGameItem, interaction.id, null));
+                }
+            }
+        }
+
+        if (offHandGameItem != null) {
+            ArrayList<Interaction> callbacks = offHandGameItem.getCallbacks();
+
+            for (Interaction interaction : callbacks) {
+                if (interaction.isTriggered(Interaction.BinaryInteraction.SWAP_OFF_HAND)) {
+                    Bukkit.getPluginManager().callEvent(new UIClickEvent(player, playerInventory, offHandGameItem, interaction.id, null));
+                    Bukkit.getPluginManager().callEvent(new InternalUIClickEvent(player, playerInventory, offHandGameItem, interaction.id, null));
+                }
+            }
+        }
+
+        if (!mainHandGameItem.getMovable() || !offHandGameItem.getMovable()) {
+            event.setCancelled(true);
         }
     }
 }

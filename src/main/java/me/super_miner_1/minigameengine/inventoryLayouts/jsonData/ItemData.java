@@ -1,13 +1,9 @@
 package me.super_miner_1.minigameengine.inventoryLayouts.jsonData;
 
-import de.tr7zw.nbtapi.NBTItem;
 import me.super_miner_1.minigameengine.MinigameEngine;
 import me.super_miner_1.minigameengine.inventoryLayouts.GameItemStack;
-import me.super_miner_1.minigameengine.inventoryLayouts.ItemStackUtility;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
