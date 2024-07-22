@@ -25,6 +25,10 @@ public class GameInventory {
         gameItem.addItemLocation(slot, inventory);
     }
 
+    public GameItemStack getItem(int slot) {
+        return GameItemStack.getGameItemStack(inventory.getItem(slot));
+    }
+
     public void clear() {
         for (int i = 0; i < inventory.getSize(); i++) {
             ItemStack item = inventory.getItem(i);
